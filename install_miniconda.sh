@@ -19,6 +19,7 @@ else
     exit 1
 fi
 
+# Check if Miniconda is already installed
 if [ -d "$INSTALL_DIR" ]; then
     echo "Miniconda is already installed at $INSTALL_DIR."
     while true; do
@@ -75,7 +76,7 @@ source "$BASHRC"
 # Prompt user for installing htop
 read -p "Do you want to install htop from conda-forge? (y/n): " INSTALL_HTOP
 if [[ "$INSTALL_HTOP" =~ ^[Yy]$ ]]; then
-    if conda install -y -c conda-forge htop; then
+    if "$HOME/miniconda3/bin/conda" install -y -c conda-forge htop; then
         echo "htop installed successfully via conda-forge."
     else
         echo "Failed to install htop via conda-forge."
