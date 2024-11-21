@@ -39,8 +39,8 @@ if [ ! -f "$BASH_PROFILE" ] || ! grep -q ".bashrc" "$BASH_PROFILE"; then
     echo "Created $BASH_PROFILE and added sourcing for .bashrc."
 fi
 
-# Source .bash_profile
-source "$BASH_PROFILE"
+# Source .bashrc to load conda into the current shell session
+source "$BASHRC"
 
 # Prompt user for installing htop
 read -p "Do you want to install htop from conda-forge? (y/n): " INSTALL_HTOP
