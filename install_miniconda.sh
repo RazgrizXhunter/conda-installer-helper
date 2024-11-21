@@ -19,12 +19,42 @@ else
     exit 1
 fi
 
-# Run Miniconda installer in batch mode
-if bash Miniconda3-latest-Linux-x86_64.sh -b -p "$INSTALL_DIR"; then
-    echo "Miniconda installed successfully."
+if [ -d "$INSTALL_DIR" ]; then
+    echo "Miniconda is already installed at $INSTALL_DIR."
+    while true; do
+        read -p "Do you want to update the existing installation? (y/n/skip): " CHOICE
+        case "$CHOICE" in
+            [Yy]* )
+                echo "Updating Miniconda..."
+                if bash Miniconda3-latest-Linux-x86_64.sh -u -b -p "$INSTALL_DIR"; then
+                    echo "Miniconda updated successfully."
+                else
+                    echo "Failed to update Miniconda. Exiting."
+                    exit 1
+                fi
+                break
+                ;;
+            [Nn]* )
+                echo "Update canceled. Exiting script."
+                exit 1
+                ;;
+            [Ss]* | skip )
+                echo "Skipping Miniconda update."
+                break
+                ;;
+            * )
+                echo "Invalid choice. Please enter 'y', 'n', or 'skip'."
+                ;;
+        esac
+    done
 else
-    echo "Miniconda installation failed. Exiting."
-    exit 1
+    # Run Miniconda installer in batch mode
+    if bash Miniconda3-latest-Linux-x86_64.sh -b -p "$INSTALL_DIR"; then
+        echo "Miniconda installed successfully."
+    else
+        echo "Miniconda installation failed. Exiting."
+        exit 1
+    fi
 fi
 
 # Update PATH in .bashrc
